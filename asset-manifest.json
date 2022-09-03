@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/yacht-race/static/css/main.964fdded.css",
-    "main.js": "/yacht-race/static/js/main.82f210da.js",
+    "main.css": "/yacht-race/static/css/main.ed3c36c8.css",
+    "main.js": "/yacht-race/static/js/main.651fc12d.js",
     "index.html": "/yacht-race/index.html",
-    "main.964fdded.css.map": "/yacht-race/static/css/main.964fdded.css.map",
-    "main.82f210da.js.map": "/yacht-race/static/js/main.82f210da.js.map"
+    "main.ed3c36c8.css.map": "/yacht-race/static/css/main.ed3c36c8.css.map",
+    "main.651fc12d.js.map": "/yacht-race/static/js/main.651fc12d.js.map"
   },
   "entrypoints": [
-    "static/css/main.964fdded.css",
-    "static/js/main.82f210da.js"
+    "static/css/main.ed3c36c8.css",
+    "static/js/main.651fc12d.js"
   ]
 }

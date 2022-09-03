@@ -6,7 +6,7 @@ import { gameReducer, initialGameState, BOAT_COLOURS, PLAY_STATE } from './gameR
 
 
 function App() {
-  const [ { playState, players, currentPlayer, windDirection }, dispatch ] = useReducer(gameReducer, initialGameState);
+  const [ { playState, players, currentPlayer, windDirection, finishLine }, dispatch ] = useReducer(gameReducer, initialGameState);
   const [ showHints, setShowHints ] = useState(true);
 
   const player = playState === PLAY_STATE.PLAYING ? players[currentPlayer] : null;
@@ -44,7 +44,10 @@ function App() {
       <button onClick={() => dispatch({ type: "init" })}>Reset</button>
       <label><input type="checkbox" checked={showHints} onChange={e=>setShowHints(e.target.checked)} /> Show Hints</label>
       <div className='App-Container'>
-        <Cards windCards={windCardCount} spinnakerCards={spinnakerCardCount} spinnakerActive={player?.spinnakerUp} dispatch={dispatch} />
+        <div>
+          <Cards windCards={windCardCount} spinnakerCards={spinnakerCardCount} spinnakerActive={player?.spinnakerUp} dispatch={dispatch} />
+          <FinishLine finishLine={finishLine} />
+        </div>
         <GameBoard
           players={players}
           currentPlayer={currentPlayer}
@@ -77,6 +80,21 @@ function Cards ({ windCards, spinnakerCards, spinnakerActive, dispatch }) {
       Array.from({ length: spinnakerCards }).map((_, i) => <Card key={i} label="SPINNAKER" onClick={() => dispatch({ type: "spinnakerCard" })} />)
     }
     </div>
+  );
+}
+
+function FinishLine ({ finishLine }) {
+  if (finishLine.length === 0) return null;
+
+  return (
+    <>
+      <h2>Finish Line</h2>
+      <ol>
+        {
+          finishLine.map((p,i) => <li key={i} style={{color:BOAT_COLOURS[p]}}>Player {p+1}</li>)
+        }
+      </ol>
+    </>
   );
 }
 

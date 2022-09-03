@@ -25,6 +25,7 @@ export function gameReducer(state, action) {
     const { i, j } = action;
     const player = players[currentPlayer];
     const possibles = getPossibleMoves(player, players, windDirection);
+    let { finishLine } = state;
 
     if (isLocationIncluded(possibles, [i, j])) {
       const route = getRoute(player.location, [i, j]);
@@ -34,12 +35,17 @@ export function gameReducer(state, action) {
 
       const newFinished = isLocationIncluded(route, startFinishSquare.location) && i > player.location[0];
 
+      if (newFinished && !player.finished) {
+        finishLine = [ ...finishLine, currentPlayer ];
+      }
+
       const finished = player.finished || newFinished;
 
       const nextState = {
         ...state,
         players: players.map((p, idx) => idx === currentPlayer ? { ...p, location: [i, j], spinnakerUp, started, finished } : p),
         currentPlayer: (currentPlayer + 1) % players.length,
+        finishLine,
       };
 
       // Check if all players are finished
@@ -102,6 +108,7 @@ export const initialGameState = {
   currentPlayer: 0,
   players: [],
   windDirection: COMPASS.NW,
+  finishLine: [],
 };
 
 function makePlayers(playerCount) {

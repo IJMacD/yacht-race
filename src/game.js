@@ -68,7 +68,7 @@ export const startSquares = [
 ];
 
 export const startFinishSquare = {
-    location: [27,27]
+    location: /** @type {[number, number]} */([27,27])
 };
 
 export const markers = [
@@ -81,7 +81,12 @@ export function getPossibleMoves (boat, boats, windDirection) {
     const out = [];
 
     for (const dir of Object.values(COMPASS)) {
-        const squares = getSailingSpeed(dir, windDirection);
+        let squares = getSailingSpeed(dir, windDirection);
+
+        if (squares === 3 && boat.spinnakerUp) {
+            squares = 5;
+        }
+
         if (squares > 0) {
             const end = checkPath(boat.location, dir, squares, boats);
             if (end) {
@@ -152,17 +157,17 @@ function checkPath (startLocation, direction, distance, boats) {
 }
 
 function checkSquare (location, boats) {
-    if (boats.some(b => b.location[0] === location[0] && b.location[1] === location[1])) return false;
+    if (boats.some(b => !b.finished && b.location[0] === location[0] && b.location[1] === location[1])) return false;
 
-    if (isLocationIncluded(excludedSquares, location[0], location[1])) return false;
+    if (isLocationIncluded(excludedSquares, location)) return false;
 
     if (markers.some(m => m.location[0] === location[0] && m.location[1] === location[1])) return false;
 
     return true;
 }
 
-export function isLocationIncluded(array, i, j) {
-    return array.some(ex => ex[0] === i && ex[1] === j);
+export function isLocationIncluded(array, loc) {
+    return array.some(ex => ex[0] === loc[0] && ex[1] === loc[1]);
 }
 
 
